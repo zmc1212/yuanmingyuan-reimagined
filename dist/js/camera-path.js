@@ -58,13 +58,16 @@ export function buildTourPath() {
 
   // P → s:ds/dP = 1/dwellW,数值积分(单调、C1)
   const NS = 2048;
-  const sAtP = new Float64Array(NS + 1);
+  const raw = new Float64Array(NS + 1);
   const step = 1 / NS;
   for (let i = 0; i < NS; i++) {
-    const s = sAtP[i];
-    sAtP[i + 1] = Math.min(1, s + (step / dwellW(Math.min(s, 1))) * (1 + 1e-9));
+    const s = Math.min(1, raw[i]);
+    raw[i + 1] = raw[i] + (step / dwellW(s)) * (1 + 1e-9);
   }
-  sAtP[NS] = 1;
+  // 归一化:P∈[0,1] 均匀铺满整条弧长(否则后期章节被挤进末尾几个百分点)
+  const norm = raw[NS] || 1;
+  const sAtP = new Float64Array(NS + 1);
+  for (let i = 0; i <= NS; i++) sAtP[i] = Math.min(1, raw[i] / norm);
   const P2s = (P) => {
     const x = clamp01(P) * NS;
     const i = Math.min(NS - 1, Math.floor(x));
