@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>圆明园 · 重现 — Old Summer Palace Reimagined</title>
+  <meta name="description" content="致敬 Getty「Persepolis Reimagined」的 Three.js 复刻:滚动导览重现 1860 毁失前的圆明园——福海烟水 · 九州清晏 · 蓬岛瑶台 · 西洋楼喷泉。">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js",
+      "three/addons/": "./vendor/addons/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="gl" aria-label="圆明园 3D 场景"></canvas>
+
+  <!-- Preloader(夜转日) -->
+  <div id="preloader">
+    <div class="pre-seal" aria-hidden="true">圆</div>
+    <div class="pre-title">
+      <div class="pre-sub">致敬复刻 · GETTY PERSEPOLIS REIMAGINED 手法</div>
+      <h1>圆明园 · 重现</h1>
+      <div class="pre-en">OLD SUMMER PALACE · REIMAGINED</div>
+    </div>
+    <div class="pre-load">
+      <div class="load-track"><div id="load-bar"></div></div>
+      <div class="load-meta"><span id="load-label">黎明前的黑暗</span><span id="load-pct">0%</span></div>
+    </div>
+  </div>
+
+  <!-- 标题序列(三行导语 + 进入) -->
+  <div id="intro" class="hidden">
+    <div id="intro-lines"></div>
+    <button id="enter-btn"><span class="seal-mini" aria-hidden="true">圆</span>点击进入</button>
+  </div>
+
+  <div id="fade-veil"></div>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div id="topbar">
+      <div class="brand"><span class="seal-mini">圆</span>圆明园 · 重现 <span class="brand-en">OLD SUMMER PALACE REIMAGINED</span></div>
+      <div class="actions">
+        <button id="btn-map">地图 <kbd>M</kbd></button>
+        <button id="btn-roam">自由漫游 <kbd>F</kbd></button>
+        <button id="btn-fs">全屏</button>
+      </div>
+    </div>
+
+    <div id="chapter-card">
+      <div class="card-rail"></div>
+      <div class="card-title-block">
+        <div id="card-num"></div>
+        <h2 id="card-title"></h2>
+        <div class="seal-stamp" id="card-seal" aria-hidden="true"></div>
+      </div>
+      <div class="card-body">
+        <div id="card-en"></div>
+        <div id="card-paras"></div>
+      </div>
+    </div>
+
+    <div id="progress-dots"></div>
+
+    <div id="scroll-hint">
+      <div class="hint-line"><span></span></div>
+      <div>滚动 · 前行</div>
+    </div>
+
+    <div id="roam-hud">
+      <div class="keys">
+        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 行走</span>
+        <span><kbd>Shift</kbd> 疾跑</span>
+        <span><kbd>Esc</kbd> 释放鼠标</span>
+      </div>
+      <button id="btn-roam-back">← 返回导览</button>
+    </div>
+  </div>
+
+  <!-- 地图 -->
+  <div id="map-overlay">
+    <div id="map-panel">
+      <div class="map-head">
+        <h3>三园盛景 · 平面图</h3>
+        <button id="map-close">✕ 关闭</button>
+      </div>
+      <div id="map-box"></div>
+      <div class="map-tip">点击高亮章节可跳转;游览路线以金色虚线标示</div>
+    </div>
+  </div>
+
+  <!-- 错误屏 -->
+  <div id="error-screen" class="hidden">
+    <h2>无法进入圆明园</h2>
+    <div id="error-msg"></div>
+  </div>
+
+  <script>
+    // file:// 使用 IIFE 产物;HTTP 使用 ES 模块入口
+    (function () {
+      var isFile = location.protocol === 'file:';
+      var s = document.createElement('script');
+      if (isFile) {
+        s.src = './js/local.bundle.js';
+      } else {
+        s.type = 'module';
+        s.src = './js/main.js';
+      }
+      s.onerror = function () {
+        var el = document.getElementById('error-screen');
+        document.getElementById('error-msg').innerHTML =
+          '入口脚本加载失败(' + s.src + ')。<br><br>' +
+          '双击打开时:请先运行 <code>npm run build:local</code> 生成 <b>js/local.bundle.js</b>;<br>' +
+          'HTTP 方式:在项目根目录运行 <code>python -m http.server 8102 --bind 127.0.0.1 --directory dist</code> 后访问 <a href="http://127.0.0.1:8102">http://127.0.0.1:8102</a>。';
+        el.classList.remove('hidden');
+      };
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

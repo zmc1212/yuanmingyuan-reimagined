@@ -1,0 +1,18 @@
+{
+  "name": "yuanmingyuan-reimagined",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "致敬 Getty「Persepolis Reimagined」手法的 Three.js 沉浸式导览:圆明园——福海烟水 · 九州清晏 · 蓬岛瑶台 · 西洋楼喷泉",
+  "scripts": {
+    "build:local": "node scripts/build-local.mjs",
+    "check": "node scripts/check.mjs",
+    "serve": "python -m http.server 8102 --bind 127.0.0.1 --directory dist"
+  },
+  "dependencies": {
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#0a0d14"/>
+  <!-- 祈年殿剪影:三重蓝檐 + 金顶 -->
+  <circle cx="32" cy="10" r="4.5" fill="#d8b36c"/>
+  <path d="M14 26 Q32 16 50 26 L46 30 Q32 22 18 30 Z" fill="#2a56a0"/>
+  <path d="M18 38 Q32 28 46 38 L42 42 Q32 34 22 42 Z" fill="#2a56a0"/>
+  <path d="M12 52 Q32 40 52 52 L48 56 Q32 46 16 56 Z" fill="#2a56a0"/>
+  <rect x="22" y="30" width="20" height="4" fill="#9e2b1e"/>
+  <rect x="18" y="42" width="28" height="5" fill="#9e2b1e"/>
+  <rect x="10" y="56" width="44" height="3" fill="#e4ddcc"/>
+</svg>
